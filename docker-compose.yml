@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  tor:
+    image: zeta0/alpine-tor
+    environment:
+      - tors=80
+    ports:
+      - 127.0.0.1:5566:5566
+
+  crawler:
+    image: shortener-crawler
+    depends_on:
+      - tor
