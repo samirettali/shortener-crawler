@@ -12,6 +12,7 @@ type Shortener struct {
 	Charset   string
 	MinLength int
 	MaxLength int
+	Interval  int
 }
 
 func main() {
@@ -20,26 +21,29 @@ func main() {
 		Charset:   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
 		MinLength: 7,
 		MaxLength: 7,
+		Interval:  1,
 	}
 
-	// bitdoShortener := &Shortener{
-	// 	BaseURL:   "https://bit.do/",
-	// 	Charset:   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-	// 	MinLength: 3,
-	// 	MaxLength: 8,
-	// }
+	bitdoShortener := &Shortener{
+		BaseURL:   "https://bit.do/",
+		Charset:   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+		MinLength: 3,
+		MaxLength: 8,
+		Interval:  1,
+	}
 
 	bitlyShortener := &Shortener{
 		BaseURL:   "https://bit.ly/",
 		Charset:   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
 		MinLength: 7,
 		MaxLength: 7,
+		Interval:  1,
 	}
 
 	crawler := NewCrawler(40)
 
 	crawler.AddShortener(inventShortener)
-	// crawler.AddShortener(bitdoShortener)
+	crawler.AddShortener(bitdoShortener)
 	crawler.AddShortener(bitlyShortener)
 
 	crawler.Start()

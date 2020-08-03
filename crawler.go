@@ -108,6 +108,7 @@ func (c *Crawler) getUrlsChan(s *Shortener) <-chan string {
 func (c *Crawler) startGenerator(s *Shortener, urlsChan chan string) {
 	charsetSize := len(s.Charset)
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	ticker := time.NewTicker(time.Duration(s.Interval) * time.Second)
 
 	var length int
 	if s.MinLength != s.MaxLength {
@@ -121,14 +122,12 @@ func (c *Crawler) startGenerator(s *Shortener, urlsChan chan string) {
 		case <-c.stop:
 			close(urlsChan)
 			return
-		default:
+		case <-ticker.C:
 			var sb strings.Builder
 			sb.WriteString(s.BaseURL)
-
 			for i := 0; i < length; i++ {
 				sb.WriteString(string(s.Charset[rnd.Intn(charsetSize)]))
 			}
-
 			urlsChan <- sb.String()
 		}
 	}
